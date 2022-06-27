@@ -375,10 +375,6 @@ function showHelp() {
   $(".display-help .selector-name").show();
   $(".display-help .title").html(helpTitle);
   $(".display-help .title").show();
-  $(".display-help .syntax").html(syntax);
-  $(".display-help .syntax").show();
-  $(".display-help .hint").html(help);
-  $(".display-help .hint").show();
   $(".display-help .solutions-title").hide();
   $(".display-help .solutions").html("");
   $(".display-help .examples-title").hide();
@@ -395,6 +391,11 @@ function showHelp() {
   }
 
   if (localStorage.getItem("hardcore") !== "1") {
+    $(".display-help .syntax").html(syntax);
+    $(".display-help .syntax").show();
+    $(".display-help .hint").html(help);
+    $(".display-help .hint").show();
+
     for(var i = 0; i < examples.length; i++){
       var example = $("<div class='example'>" + examples[i] + "</div>");
       $(".display-help .examples").append(example);
