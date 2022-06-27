@@ -13,6 +13,7 @@
 
 var level;  // Holds current level info
 var currentLevel = parseInt(localStorage.currentLevel,10) || 0; // Keeps track of the current level Number (0 is level 1)
+let hardcore = parseInt(localStorage.hardcore, 10) || 0; // Determines whether game is hordcore mode (0 easy)
 var levelTimeout = 1000; // Delay between levels after completing
 var finished = false;    // Keeps track if the game is showing the Your Rock! screen (so that tooltips can be disabled)
 
@@ -33,27 +34,62 @@ $(document).ready(function(){
 
     var type = $(this).attr("type");
 
-    if(type == "twitter"){
-      var url = "https://twitter.com/intent/tweet?text=Learning%20CSS?%20Try%20CSS%20Diner,%20the%20fun%20way%20to%20practice%20selectors%20%E2%86%92&hashtags=css,cssdiner,webdev&url=http%3A%2F%2Fcssdiner.com%2F&via=flukeout";
-    } else if (type == "facebook") {
-      var url = "https://www.facebook.com/sharer.php?src=sp&u=http%3A%2F%2Fcssdiner.com";
-    } else if (type == "email") {
-      var url = "mailto:?subject=Check+out+CSS+Diner&body=It's+a+fun+game+to+learn+%26+practice+CSS+selectors.%0D%0A%0D%0AYou+can+try+it+at+http://cssdiner.com";
+    var url;
+    
+    if(type === "twitter"){
+      url = "https://twitter.com/intent/tweet?text=Learning%20CSS?%20Try%20CSS%20Diner,%20the%20fun%20way%20to%20practice%20selectors%20%E2%86%92&hashtags=css,cssdiner,webdev&url=http%3A%2F%2Fcssdiner.com%2F&via=flukeout";
+    } else if (type === "facebook") {
+      url = "https://www.facebook.com/sharer.php?src=sp&u=http%3A%2F%2Fcssdiner.com";
+    } else if (type === "email") {
+      url = "mailto:?subject=Check+out+CSS+Diner&body=It's+a+fun+game+to+learn+%26+practice+CSS+selectors.%0D%0A%0D%0AYou+can+try+it+at+http://cssdiner.com";
     }
 
     PopupCenter(url, "title", 600, 450);
-    sendEvent("share", type, "");
     return false;
   });
 
+  $("input").on("input",function(e) {
+    localStorage.setItem("input", e.target.value)
+  })
+
+  $("input").val(localStorage.getItem("input"));
+
   $(window).on("keydown",function(e){
-    if(e.keyCode == 27) {
+
+    if(e.keyCode === 27) {
       closeMenu();
     }
+
+    if ($("input").val().trim() === "") {
+      if(e.keyCode === 37) {
+        currentLevel--;
+        if(currentLevel < 0) {
+          currentLevel = 0;
+        }
+
+        loadLevel();
+        $("input").focus();
+      }
+      else if (e.keyCode === 39) {
+        currentLevel++;
+        if(currentLevel >= levels.length) {
+          currentLevel = levels.length - 1;
+        }
+
+        loadLevel();
+        $("input").focus();
+      }
+    }
+
   });
 
   // Custom scrollbar plugin
   $(".left-col, .level-menu").mCustomScrollbar({
+    scrollInertia: 0,
+    autoHideScrollbar: true
+  });
+
+  $(".right-col").mCustomScrollbar({
     scrollInertia: 0,
     autoHideScrollbar: true
   });
@@ -64,7 +100,7 @@ $(document).ready(function(){
   });
 
   $(".level-menu-toggle-wrapper").on("click",function(){
-    if($(".menu-open").length == 0) {
+    if($(".menu-open").length === 0) {
       openMenu();
     } else {
       closeMenu();
@@ -80,7 +116,7 @@ $(document).ready(function(){
 
     addAnimation($(this),"link-jiggle");
 
-    if(direction == "next") {
+    if(direction === "next") {
       currentLevel++;
       if(currentLevel >= levels.length) {
         currentLevel = levels.length - 1;
@@ -93,6 +129,7 @@ $(document).ready(function(){
     }
 
     loadLevel();
+    $("input").focus();
     return false;
   });
 
@@ -105,7 +142,7 @@ $(document).ready(function(){
   //Handle inputs from the input box on enter
   $("input").on("keypress",function(e){
     e.stopPropagation();
-    if(e.keyCode ==  13){
+    if(e.keyCode ===  13){
       enterHit();
       return false;
     }
@@ -162,6 +199,7 @@ $(document).ready(function(){
   setTimeout(function(){
     loadLevel();
     $(".table-wrapper,.table-edge").css("opacity",1);
+    $("input").focus()
   },50);
 });
 
@@ -181,6 +219,11 @@ function resetProgress(){
   currentLevel = 0;
   progress = blankProgress;
   localStorage.setItem("progress",JSON.stringify(progress));
+  localStorage.setItem("hardcore", "0");
+  $(".display-help *").each(function () {
+    $(this).hide();
+  });
+  showHelp();
   finished = false;
 
   $(".completed").removeClass("completed");
@@ -194,11 +237,7 @@ function resetProgress(){
 
 function checkCompleted(levelNumber){
   if(progress.guessHistory[levelNumber]){
-    if(progress.guessHistory[levelNumber].correct){
-      return true;
-    } else {
-      return false;
-    }
+    return !!progress.guessHistory[levelNumber].correct;
   } else {
     return false;
   }
@@ -229,10 +268,14 @@ function buildLevelmenu(){
 
 function closeMenu(){
   $(".right-col").removeClass("menu-open");
+  $("#mCSB_3_container").css('max-height', '');
+  $("#mCSB_3_scrollbar_vertical").css('opacity', '1');
 }
 
 function openMenu(){
   $(".right-col").addClass("menu-open");
+  $("#mCSB_3_container").css('max-height', '100%');
+  $("#mCSB_3_scrollbar_vertical").css('opacity', '0');
 }
 
 
@@ -260,7 +303,7 @@ function showTooltip(el){
 
   var pos = el.offset();
   helper.css("top",pos.top - 65);
-  helper.css("left",pos.left + (el.width()/2));
+  helper.css("left",`${el.get(0).getBoundingClientRect().left}px`);
 
   var helpertext;
 
@@ -319,30 +362,48 @@ function handleInput(text){
 
 // Loads up the help text & examples for each level
 function showHelp() {
-
   var helpTitle = level.helpTitle || "";
   var help = level.help || "";
   var examples = level.examples ||[];
-  var selector = level.selector || "";
+  var solutions = []
+  if (progress.guessHistory[currentLevel])
+    solutions = progress.guessHistory[currentLevel].solutions;
   var syntax = level.syntax || "";
-  var syntaxExample = level.syntaxExample || "";
   var selectorName = level.selectorName || "";
 
-  $(".display-help .syntax").html(syntax);
-  $(".display-help .syntax-example").html(syntaxExample);
   $(".display-help .selector-name").html(selectorName);
+  $(".display-help .selector-name").show();
   $(".display-help .title").html(helpTitle);
+  $(".display-help .title").show();
+  $(".display-help .syntax").html(syntax);
+  $(".display-help .syntax").show();
+  $(".display-help .hint").html(help);
+  $(".display-help .hint").show();
+  $(".display-help .solutions-title").hide();
+  $(".display-help .solutions").html("");
+  $(".display-help .examples-title").hide();
   $(".display-help .examples").html("");
-  $(".display-help .examples-title").hide(); // Hide the "Examples" heading
 
-  for(var i = 0; i < examples.length; i++){
-    var example = $("<div class='example'>" + examples[i] + "</div>");
-    $(".display-help .examples").append(example);
-    $(".display-help .examples-title").show(); // Show it if there are examples
+  for(var s of solutions){
+    var solution = $("<solution>" + s + "</solution>");
+    solution.click(function(event){
+      $("input").val(event.target.textContent).focus();
+    })
+    $(".display-help .solutions").append(solution);
+    $(".display-help .solutions").show();
+    $(".display-help .solutions-title").show(); // Show it if there are examples
   }
 
-  $(".display-help .hint").html(help);
-  $(".display-help .selector").text(selector);
+  if (localStorage.getItem("hardcore") !== "1") {
+    for(var i = 0; i < examples.length; i++){
+      var example = $("<div class='example'>" + examples[i] + "</div>");
+      $(".display-help .examples").append(example);
+      $(".display-help .examples").show();
+      $(".display-help .examples-title").show(); // Show it if there are examples
+    }
+  }
+
+  $("#mCSB_3_container").css('min-height', '100%');
 }
 
 function resetTable(){
@@ -361,11 +422,6 @@ function resetTable(){
 }
 
 function fireRule(rule) {
-
-  // prevent cheating
-  if(rule === ".strobe") {
-    rule = null;
-  }
 
   $(".shake").removeClass("shake");
 
@@ -399,54 +455,144 @@ function fireRule(rule) {
     rule = null;
   }
 
-  var ruleSelected = $(".table").find(rule).not(baseTable);            // What the correct rule finds
-  var levelSelected = $(".table").find(level.selector).not(baseTable); // What the person finds
+  $(".table").html(level.boardMarkup)
+  var htmlObject = document.createElement('div');
+  htmlObject.innerHTML = level.boardMarkup;
+  var ruleSelected = $(htmlObject).find(rule);          // What the person finds
+  var highlightSelected = $(".table").find(rule).not(baseTable);          // What the person sees
+  var levelSelected = $(".table").find(level.selector).not(baseTable); // What the correct rule finds
 
   var win = false;
 
   // If nothing is selected
-  if(ruleSelected.length == 0) {
+  if(ruleSelected.length === 0) {
     $(".editor").addClass("shake");
   }
 
-  if(ruleSelected.length == levelSelected.length && ruleSelected.length > 0){
+  if(ruleSelected.length === levelSelected.length && ruleSelected.length > 0){
     win = checkResults(ruleSelected,levelSelected,rule);
   }
+  else {
+    console.log(ruleSelected)
+    console.log(levelSelected)
+    console.log($(htmlObject).html())
+    console.log($(".table").html())
+  }
 
-  if(win){
-    ruleSelected.removeClass("strobe");
-    ruleSelected.addClass("clean");
-    $("input").val("");
+  if (win) {
+    if (localStorage.getItem("hardcore") === "1" && progress.guessHistory[currentLevel]) {
+      for (let s of document.querySelectorAll('.display-help .solutions *')) {
+        if (s.textContent === rule) {
+
+          $(".strobe").removeClass("strobe");
+          highlightSelected.removeClass("strobe");
+          highlightSelected.addClass("shake");
+
+          s.classList.add("shake")
+          setTimeout(function(){
+            s.classList.remove("shake");
+            $(".shake").removeClass("shake");
+            $(".strobe").removeClass("strobe");
+            levelSelected.addClass("strobe");
+          },500);
+
+          $(".result").fadeOut();
+
+          return;
+        }
+      }
+    }
+
+    if (progress.guessHistory[currentLevel]) {
+      if (!progress.guessHistory[currentLevel].solutions.includes(rule)) {
+        $(".display-help .solutions-title").show();
+        let solution = $("<solution>" + rule + "</solution>");
+        $(".display-help .solutions").append(solution);
+      }
+    }
+    else {
+      $(".display-help .solutions-title").show();
+      let solution = $("<solution>" + rule + "</solution>");
+      $(".display-help .solutions").append(solution);
+    }
+
+    levelSelected.removeClass("strobe");
+    levelSelected.addClass("clean");
+    if (localStorage.getItem("hardcore") !== "1") {
+      $("input").val("");
+    }
     $(".input-wrapper").css("opacity",.2);
     updateProgressUI(currentLevel, true);
     currentLevel++;
 
+    trackProgress(currentLevel-1, "correct", rule);
+
+    if (localStorage.getItem("hardcore") === "1") {
+      currentLevel--;
+    }
+
     if(currentLevel >= levels.length) {
+
+      currentLevel = levels.length - 1;
+
+      for (let i = 0; i < levels.length; i++) {
+        if (!checkCompleted(i)) {
+          currentLevel = i;
+          setTimeout(function(){
+            loadLevel();
+          },levelTimeout);
+          return
+        }
+      }
+
       winGame();
-    } else {
-      setTimeout(function(){
-        loadLevel();
-      },levelTimeout);
+    }
+    else {
+
+      for (let i = currentLevel; i < levels.length; i++) {
+        if (!checkCompleted(i)) {
+          currentLevel = i;
+          setTimeout(function(){
+            loadLevel();
+          },levelTimeout);
+          return
+        }
+      }
+
+      for (let i = currentLevel; i >= 0; i--) {
+        if (!checkCompleted(i)) {
+          currentLevel = i;
+          setTimeout(function(){
+            loadLevel();
+          },levelTimeout);
+          return
+        }
+      }
+      if (localStorage.getItem("hardcore") !== "1") {
+        winGame();
+      }
+      else {
+        setTimeout(function(){
+          loadLevel();
+        },levelTimeout);
+      }
     }
   } else {
-    ruleSelected.removeClass("strobe");
-    ruleSelected.addClass("shake");
+
+    trackProgress(currentLevel, "incorrect");
+
+    $(".strobe").removeClass("strobe");
+    highlightSelected.removeClass("strobe");
+    highlightSelected.addClass("shake");
 
     setTimeout(function(){
       $(".shake").removeClass("shake");
       $(".strobe").removeClass("strobe");
       levelSelected.addClass("strobe");
+      console.log('shh')
     },500);
 
     $(".result").fadeOut();
-  }
-
-  // If answer is correct, let's track progress
-
-  if(win){
-    trackProgress(currentLevel-1, "correct");
-  } else {
-    trackProgress(currentLevel, "incorrect");
   }
 }
 
@@ -461,28 +607,31 @@ function updateProgressUI(levelNumber, completed){
   }
 }
 
-function trackProgress(levelNumber, type){
+function trackProgress(levelNumber, type, rule = null){
   if(!progress.guessHistory[levelNumber]) {
     progress.guessHistory[levelNumber] = {
       correct : false,
       incorrectCount : 0,
-      gaSent : false
+      solutions : [],
+      gaSent : false,
     };
   }
 
   var levelStats = progress.guessHistory[levelNumber];
 
-  if(type == "incorrect"){
-    if(levelStats.correct == false) {
+  if(type === "incorrect"){
+    if(levelStats.correct === false) {
       levelStats.incorrectCount++; // Only update the incorrect count until it is guessed correctly
     }
   } else {
-    if(levelStats.correct == false) {
+    if(levelStats.correct === false) {
       levelStats.correct = true;
       progress.totalCorrect++;
       progress.percentComplete = progress.totalCorrect / levels.length;
       levelStats.gaSent = true;
-      sendEvent("guess", "correct", levelNumber + 1); // Send event
+    }
+    if (!levelStats.solutions.includes(rule.toString())) {
+      levelStats.solutions.push(rule.toString());
     }
   }
 
@@ -490,40 +639,57 @@ function trackProgress(levelNumber, type){
   var increment = .1;
   if(progress.percentComplete >= progress.lastPercentEvent + increment) {
     progress.lastPercentEvent = progress.lastPercentEvent + increment;
-    sendEvent("progress","percent", Math.round(progress.lastPercentEvent * 100));
   }
 
   localStorage.setItem("progress",JSON.stringify(progress));
 }
 
+function winGame(){
+  finished = true;
+  $(".display-help *").each(function () {
+    $(this).hide();
+  });
 
-// Sends event to Google Analytics
-// Doesn't send events if we're on localhost, as the ga variable is set to false
-function sendEvent(category, action, label){
-  if(!ga){
-    return;
+  if (localStorage.getItem("hardcore") === "1") {
+    $(".table").html('<span class="winner"><strong>You did it!</strong><br>You rock at CSS.<br>You are a <strong>LEGEND!</strong></span>');
+  }
+  else {
+    $(".table").html('<span class="winner"><strong>You did it!</strong><br>You rock at CSS.<br>Now try the <strong>HARDCORE</strong> mode</span>');
+    currentLevel = 0;
+    localStorage.setItem("hardcore", "1");
+    setTimeout(function(){
+      loadLevel();
+      showHelp();
+    },levelTimeout * 5);
   }
 
-  ga('send', {
-    hitType: "event",
-    eventCategory: category,  // guess or progress
-    eventAction: action,      // action (correct vs not..)
-    eventLabel: label         // level number
-  });
-}
 
-function winGame(){
-  $(".table").html('<span class="winner"><strong>You did it!</strong><br>You rock at CSS.</span>');
   addNametags();
-  finished = true;
   resetTable();
 }
 
 function checkResults(ruleSelected,levelSelected,rule){
-  var ruleTable = $(".table").clone();
-  ruleTable.find(".strobe").removeClass("strobe");
+
+  var checkTable = $(".table").clone()
+
+  console.log(checkTable.html())
+
+  var htmlObject = document.createElement('div');
+  var ruleTable = $(htmlObject).html(level.boardMarkup);
   ruleTable.find(rule).addClass("strobe");
-  return($(".table").html() == ruleTable.html());
+  checkTable.find(level.selector).addClass("strobe");
+
+  checkTable.find("*").each(function () {
+    $(this).removeAttr("style");
+    if ($(this).attr('class') === "") {
+      $(this).removeAttr("class");
+    }
+  })
+
+  console.log(checkTable.html())
+  console.log(ruleTable.html())
+
+  return(checkTable.html() === ruleTable.html());
 }
 
 // Returns all formatted markup within an element...
@@ -567,7 +733,7 @@ function loadBoard(){
   var markupHolder = $("<div/>")
 
   $(level.boardMarkup).each(function(i,el){
-    if(el.nodeType == 1){
+    if(el.nodeType === 1){
       var result = getMarkup(el);
       markupHolder.append(result);
     }
@@ -635,8 +801,10 @@ function loadLevel(){
   updateProgressUI(currentLevel, checkCompleted(currentLevel));
 
   $(".order").text(level.doThis);
-  $("input").val("").focus();
 
+  if (localStorage.getItem("hardcore") !== "1") {
+    $("input").val("").focus();
+  }
   $(".input-wrapper").css("opacity",1);
   $(".result").text("");
 

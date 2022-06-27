@@ -11,8 +11,8 @@ var levels = [
       '<strong>p</strong> selects all <tag>p</tag> elements.',
     ],
     boardMarkup: `
-    <plate/>
-    <plate/>
+    <plate></plate>
+    <plate></plate>
     `
   },
   {
@@ -27,9 +27,9 @@ var levels = [
       '<strong>p</strong> selects all <tag>p</tag> elements.',
     ],
     boardMarkup: `
-    <bento/>
-    <plate/>
-    <bento/>
+    <bento></bento>
+    <plate></plate>
+    <bento></bento>
     `
   },
   {
@@ -44,9 +44,9 @@ var levels = [
       '<strong>ul#long</strong> selects <tag>ul id="long"</tag>'
     ],
     boardMarkup : `
-    <plate id="fancy"/>
-    <plate/>
-    <bento/>
+    <plate id="fancy"></plate>
+    <plate></plate>
+    <bento></bento>
     `
   },
   {
@@ -61,11 +61,11 @@ var levels = [
       '<strong>#fancy&nbsp;&nbsp;span</strong> selects any <tag>span</tag> elements that are inside of the element with <strong>id="fancy"</strong>',
     ],
     boardMarkup : `
-    <bento/>
+    <bento></bento>
     <plate>
-      <apple/>
+      <apple></apple>
     </plate>
-    <apple/>
+    <apple></apple>
     `
   },
   {
@@ -79,13 +79,13 @@ var levels = [
     ],
     boardMarkup : `
     <bento>
-    <orange/>
+    <orange></orange>
     </bento>
     <plate id="fancy">
-      <pickle/>
+      <pickle></pickle>
     </plate>
     <plate>
-      <pickle/>
+      <pickle></pickle>
     </plate>
     `
   },
@@ -100,12 +100,12 @@ var levels = [
     '<strong>.neato</strong> selects all elements with <strong>class="neato"</strong>'
     ],
     boardMarkup : `
-    <apple/>
-    <apple class="small"/>
+    <apple></apple>
+    <apple class="small"></apple>
     <plate>
-      <apple class="small"/>
+      <apple class="small"></apple>
     </plate>
-    <plate/>
+    <plate></plate>
     `
   },
   {
@@ -119,16 +119,16 @@ var levels = [
       '<strong>#big.wide</strong> selects all elements with <strong>id="big"</strong> that also have <strong>class="wide"</strong>'
     ],
     boardMarkup :`
-    <apple/>
-    <apple class="small"/>
+    <apple></apple>
+    <apple class="small"></apple>
     <bento>
-      <orange class="small"/>
+      <orange class="small"></orange>
     </bento>
     <plate>
-      <orange/>
+      <orange></orange>
     </plate>
     <plate>
-      <orange class="small"/>
+      <orange class="small"></orange>
     </plate>`
   },
   {
@@ -139,17 +139,17 @@ var levels = [
     help : 'Combine what you learned in the last few levels to solve this one!',
     boardMarkup : `
     <bento>
-      <orange/>
+      <orange></orange>
     </bento>
-    <orange class="small"/>
+    <orange class="small"></orange>
     <bento>
-      <orange class="small"/>
-    </bento>
-    <bento>
-      <apple class="small"/>
+      <orange class="small"></orange>
     </bento>
     <bento>
-      <orange class="small"/>
+      <apple class="small"></apple>
+    </bento>
+    <bento>
+      <orange class="small"></orange>
     </bento>
     `
   },
@@ -165,19 +165,19 @@ var levels = [
     '<strong>a, p, div</strong> selects all <tag>a</tag>, <tag>p</tag> and <tag>div</tag> elements'
     ],
     boardMarkup : `
-    <pickle class="small"/>
-    <pickle/>
+    <pickle class="small"></pickle>
+    <pickle></pickle>
     <plate>
-      <pickle/>
+      <pickle></pickle>
     </plate>
     <bento>
-      <pickle/>
+      <pickle></pickle>
     </bento>
     <plate>
-      <pickle/>
+      <pickle></pickle>
     </plate>
-    <pickle/>
-    <pickle class="small"/>
+    <pickle></pickle>
+    <pickle class="small"></pickle>
     `
   },
   {
@@ -191,15 +191,15 @@ var levels = [
       '<strong>p *</strong> selects any element inside all <tag>p</tag> elements.',
     ],
     boardMarkup : `
-    <apple/>
+    <apple></apple>
     <plate>
-      <orange class="small" />
+      <orange class="small"></orange>
     </plate>
-    <bento/>
+    <bento></bento>
     <bento>
-      <orange/>
+      <orange></orange>
     </bento>
-    <plate id="fancy"/>
+    <plate id="fancy"></plate>
     `
   },
   {
@@ -214,14 +214,14 @@ var levels = [
     ],
     boardMarkup: `
     <plate id="fancy">
-      <orange class="small"/>
+      <orange class="small"></orange>
     </plate>
     <plate>
-      <pickle/>
+      <pickle></pickle>
     </plate>
-    <apple class="small"/>
+    <apple class="small"></apple>
     <plate>
-      <apple/>
+      <apple></apple>
     </plate>`
   },
   {
@@ -230,21 +230,21 @@ var levels = [
     helpTitle: "Select an element that directly follows another element",
     selectorName: "Adjacent Sibling Selector",
     syntax : "A + B",
-    help : "This selects all <strong>B</strong> elements that directly follow <strong>A</strong>. Elements that follow one another are called siblings. They're on the same level, or depth. <br/><br/>In the HTML markup for this level, elements that have the same indentation are siblings.",
+    help : "This selects all <strong>B</strong> elements that directly follow <strong>A</strong>. Elements that follow one another are called siblings. They're on the same level, or depth. <br></br><br></brIn> the HTML markup for this level, elements that have the same indentation are siblings.",
     examples : [
       '<strong>p + .intro</strong> selects every element with <strong>class="intro"</strong> that directly follows a <tag>p</tag>',
       '<strong>div + a</strong> selects every <tag>a</tag> element that directly follows a <tag>div</tag>'
     ],
     boardMarkup : `
     <bento>
-      <apple class="small"/>
+      <apple class="small"></apple>
     </bento>
-    <plate />
-    <apple class="small"/>
-    <plate />
-    <apple/>
-    <apple class="small"/>
-    <apple class="small"/>
+    <plate></plate>
+    <apple class="small"></apple>
+    <plate></plate>
+    <apple></apple>
+    <apple class="small"></apple>
+    <apple class="small"></apple>
     `
   },
   {
@@ -258,17 +258,17 @@ var levels = [
       '<strong>A ~ B</strong> selects all <strong>B</strong> that follow a <strong>A</strong>'
     ],
     boardMarkup : `
-    <pickle/>
+    <pickle></pickle>
     <bento>
-      <orange class="small"/>
+      <orange class="small"></orange>
     </bento>
-    <pickle class="small"/>
-    <pickle/>
+    <pickle class="small"></pickle>
+    <pickle></pickle>
     <plate>
-      <pickle/>
+      <pickle></pickle>
     </plate>
     <plate>
-      <pickle class="small"/>
+      <pickle class="small"></pickle>
     </plate>
     `
   },
@@ -285,15 +285,15 @@ var levels = [
     boardMarkup: `
     <plate>
       <bento>
-        <apple/>
+        <apple></apple>
       </bento>
     </plate>
     <plate>
-      <apple/>
+      <apple></apple>
     </plate>
-    <plate/>
-    <apple/>
-    <apple class="small"/>
+    <plate></plate>
+    <apple></apple>
+    <apple class="small"></apple>
     `
   },
   {
@@ -310,14 +310,14 @@ var levels = [
       '<strong>div p:first-child</strong> selects all first child <tag>p</tag> elements that are in a <tag>div</tag>.'
     ],
     boardMarkup :`
-    <bento/>
-    <plate />
+    <bento></bento>
+    <plate></plate>
     <plate>
-      <orange />
-      <orange />
-      <orange />
+      <orange></orange>
+      <orange></orange>
+      <orange></orange>
     </plate>
-    <pickle class="small" />
+    <pickle class="small"></pickle>
     `
   },
   {
@@ -333,19 +333,19 @@ var levels = [
     ],
     boardMarkup : `
     <plate>
-      <apple/>
+      <apple></apple>
     </plate>
     <plate>
-      <pickle />
+      <pickle></pickle>
     </plate>
     <bento>
-      <pickle />
+      <pickle></pickle>
     </bento>
     <plate>
-      <orange class="small"/>
-      <orange/>
+      <orange class="small"></orange>
+      <orange></orange>
     </plate>
-    <pickle class="small"/>
+    <pickle class="small"></pickle>
     `
   },
   {
@@ -362,14 +362,14 @@ var levels = [
     ],
     boardMarkup : `
     <plate id="fancy">
-      <apple class="small"/>
+      <apple class="small"></apple>
     </plate>
-    <plate/>
+    <plate></plate>
     <plate>
-      <orange class="small"/>
+      <orange class="small"></orange>
       <orange>
     </plate>
-    <pickle class="small"/>`
+    <pickle class="small"></pickle>`
   },
   {
     selectorName: "Nth Child Pseudo-selector",
@@ -383,10 +383,10 @@ var levels = [
       '<strong>div p:nth-child(2)</strong> selects the second <strong>p</strong> in every <strong>div</strong>',
     ],
     boardMarkup : `
-    <plate/>
-    <plate/>
-    <plate/>
-    <plate id="fancy"/>
+    <plate></plate>
+    <plate></plate>
+    <plate></plate>
+    <plate id="fancy"></plate>
     `
   },
   {
@@ -400,14 +400,14 @@ var levels = [
       '<strong>:nth-last-child(2)</strong> selects all second-to-last child elements.'
     ],
     boardMarkup: `
-    <plate/>
-    <bento/>
+    <plate></plate>
+    <bento></bento>
     <plate>
-      <orange/>
-      <orange/>
-      <orange/>
+      <orange></orange>
+      <orange></orange>
+      <orange></orange>
     </plate>
-    <bento/>
+    <bento></bento>
     `
   },
   {
@@ -421,14 +421,14 @@ var levels = [
       '<strong>span:first-of-type</strong> selects the first <tag>span</tag> in any element.'
     ],
     boardMarkup: `
-    <orange class="small"/>
-    <apple/>
-    <apple class="small"/>
-    <apple/>
-    <apple class="small"/>
+    <orange class="small"></orange>
+    <apple></apple>
+    <apple class="small"></apple>
+    <apple></apple>
+    <apple class="small"></apple>
     <plate>
-      <orange class="small"/>
-      <orange/>
+      <orange class="small"></orange>
+      <orange></orange>
     </plate>
     `
   },
@@ -443,12 +443,12 @@ var levels = [
       '<strong>.example:nth-of-type(odd)</strong> selects all odd instances of a the example class.'
     ],
     boardMarkup : `
-    <plate/>
-    <plate/>
-    <plate/>
-    <plate/>
-    <plate id="fancy"/>
-    <plate/>
+    <plate></plate>
+    <plate></plate>
+    <plate></plate>
+    <plate></plate>
+    <plate id="fancy"></plate>
+    <plate></plate>
     `
   },
   {
@@ -461,18 +461,18 @@ var levels = [
       '<strong>span:nth-of-type(6n+2)</strong> selects every 6th instance of a <tag>span</tag>, starting from (and including) the second instance.'
     ],
     boardMarkup : `
-    <plate/>
+    <plate></plate>
     <plate>
-      <pickle class="small" />
+      <pickle class="small"></pickle>
     </plate>
     <plate>
-      <apple class="small" />
+      <apple class="small"></apple>
     </plate>
-    <plate/>
+    <plate></plate>
     <plate>
-      <apple />
+      <apple></apple>
     </plate>
-    <plate/>
+    <plate></plate>
     `
   },
   {
@@ -487,14 +487,14 @@ var levels = [
     ],
     boardMarkup: `
     <plate id="fancy">
-      <apple class="small" />
-      <apple />
+      <apple class="small"></apple>
+      <apple></apple>
     </plate>
     <plate>
-      <apple class="small" />
+      <apple class="small"></apple>
     </plate>
     <plate>
-      <pickle />
+      <pickle></pickle>
     </plate>
     `
   },
@@ -510,12 +510,12 @@ var levels = [
       '<strong>p span:last-of-type</strong> selects the last <tag>span</tag> in every <tag>p</tag>.'
     ],
     boardMarkup : `
-    <orange class="small"/>
-    <orange class="small" />
-    <pickle />
-    <pickle />
-    <apple class="small" />
-    <apple class="small" />
+    <orange class="small"></orange>
+    <orange class="small"></orange>
+    <pickle></pickle>
+    <pickle></pickle>
+    <apple class="small"></apple>
+    <apple class="small"></apple>
     `
   },
   {
@@ -529,12 +529,12 @@ var levels = [
       '<strong>div:empty</strong> selects all empty <tag>div</tag> elements.'
     ],
     boardMarkup:`
-    <bento/>
+    <bento></bento>
     <bento>
-      <pickle class="small"/>
+      <pickle class="small"></pickle>
     </bento>
-    <plate/>
-    <bento/>`
+    <plate></plate>
+    <bento></bento>`
   },
   {
     selectorName: "Negation Pseudo-class",
@@ -550,16 +550,16 @@ var levels = [
     ],
     boardMarkup: `
     <plate id="fancy">
-      <apple class="small" />
+      <apple class="small"></apple>
     </plate>
     <plate>
-      <apple />
+      <apple></apple>
     </plate>
-    <apple />
+    <apple></apple>
     <plate>
-      <orange class="small" />
+      <orange class="small"></orange>
     </plate>
-    <pickle class="small" />
+    <pickle class="small"></pickle>
     `
   },
   {
@@ -574,11 +574,11 @@ var levels = [
       '<strong>[type]</strong> selects all elements that have a <strong>type="anything"</strong>. attribute'
     ],
     boardMarkup:`
-    <bento><apple class="small"/></bento>
-    <apple for="Ethan"/>
-    <plate for="Alice"><pickle/></plate>
-    <bento for="Clara"><orange/></bento>
-    <pickle/>`
+    <bento><apple class="small"></apple></bento>
+    <apple for="Ethan"></apple>
+    <plate for="Alice"><pickle></pickle></plate>
+    <bento for="Clara"><orange></orange></bento>
+    <pickle></pickle>`
   },
   {
     selectorName: "Attribute Selector",
@@ -593,10 +593,10 @@ var levels = [
       '<strong>input[disabled]</strong> selects all <tag>input</tag> elements with the <strong>disabled</strong> attribute'
     ],
     boardMarkup:`
-    <plate for="Sarah"><pickle/></plate>
-    <plate for="Luke"><apple/></plate>
-    <plate/>
-    <bento for="Steve"><orange/></bento>
+    <plate for="Sarah"><pickle></pickle></plate>
+    <plate for="Luke"><apple></apple></plate>
+    <plate></plate>
+    <bento for="Steve"><orange></orange></bento>
     `
   },
   {
@@ -610,10 +610,10 @@ var levels = [
       '<strong>input[type="checkbox"]</strong> selects all checkbox input elements.'
     ],
     boardMarkup:`
-    <apple for="Alexei" />
-    <bento for="Albina"><apple /></bento>
-    <bento for="Vitaly"><orange/></bento>
-    <pickle/>
+    <apple for="Alexe"></apple>
+    <bento for="Albina"><apple></apple></bento>
+    <bento for="Vitaly"><orange></orange></bento>
+    <pickle></pickle>
     `
   },
   {
@@ -627,9 +627,9 @@ var levels = [
       '<strong>.toy[category^="Swim"]</strong> selects elements with class <strong>toy</strong> and either <strong>category="Swimwear"</strong> or <strong>category="Swimming"</strong>.'
     ],
     boardMarkup: `
-    <plate for="Sam"><pickle/></plate>
-    <bento for="Sarah"><apple class="small"/></bento>
-    <bento for="Mary"><orange/></bento>
+    <plate for="Sam"><pickle></pickle></plate>
+    <bento for="Sarah"><apple class="small"></apple></bento>
+    <bento for="Mary"><orange></orange></bento>
     `
   },
   {
@@ -643,11 +643,11 @@ var levels = [
       '<strong>img[src$=".jpg"]</strong> selects all images display a <strong>.jpg</strong> image.',
     ],
     boardMarkup:`
-    <apple class="small"/>
-    <bento for="Hayato"><pickle/></bento>
+    <apple class="small"></apple>
+    <bento for="Hayato"><pickle></pickle></bento>
     <apple for="Ryota"></apple>
-    <plate for="Minato"><orange/></plate>
-    <pickle class="small"/>
+    <plate for="Minato"><orange></orange></plate>
+    <pickle class="small"></pickle>
     `
   },
   {
@@ -662,9 +662,9 @@ var levels = [
       '<strong>[class*="heading"]</strong> selects all elements with "heading" in their class, like <strong>class="main-heading"</strong> and <strong>class="sub-heading"</strong>'
     ],
     boardMarkup:`
-    <bento for="Robbie"><apple /></bento>
-    <bento for="Timmy"><pickle /></bento>
-    <bento for="Bobby"><orange /></bento>
+    <bento for="Robbie"><apple></apple></bento>
+    <bento for="Timmy"><pickle></pickle></bento>
+    <bento for="Bobby"><orange></orange></bento>
     `
   }
 ];
