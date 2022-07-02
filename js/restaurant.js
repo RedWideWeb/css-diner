@@ -640,7 +640,7 @@ function trackProgress(levelNumber, type, rule = null){
       progress.totalCorrect++;
       progress.percentComplete = progress.totalCorrect / levels.length;
       levelStats.gaSent = true;
-      sendEvent("guess", "correct", levelNumber + 1); // Send event
+      // sendEvent("guess", "correct", levelNumber + 1); // Send event
     }
     if(levelStats.solutions) {
       if (!levelStats.solutions.includes(rule.toString())) {
@@ -656,7 +656,7 @@ function trackProgress(levelNumber, type, rule = null){
   var increment = .1;
   if(progress.percentComplete >= progress.lastPercentEvent + increment) {
     progress.lastPercentEvent = progress.lastPercentEvent + increment;
-    sendEvent("progress","percent", Math.round(progress.lastPercentEvent * 100));
+    // sendEvent("progress","percent", Math.round(progress.lastPercentEvent * 100));
   }
 
   localStorage.setItem("progress",JSON.stringify(progress));
